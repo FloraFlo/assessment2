@@ -10,6 +10,12 @@ import { Listpage } from './components/Listpage';
 import { Singleexercise } from './components/Singleexercise';
 import { Splashscreen } from './components/Splashscreen';
 
+import { firebaseConfig } from './Config';
+import {initializeApp} from 'firebase/app'; 
+
+initializeApp( firebaseConfig )
+
+
 const Stack = createNativeStackNavigator(); 
 
 export default function App() {
