@@ -1,7 +1,7 @@
 import React from 'react'; 
 import {View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform} from "react-native";
 import { useNavigation } from '@react-navigation/core';
-import { ThemeColours } from 'react-navigation';
+import { ThemeColours } from './ThemeColours';
 
 
 export function Signup ( props ) {
@@ -20,7 +20,7 @@ export function Signup ( props ) {
             <Text>Password</Text>   
             <TextInput style={styles.input}/>
             <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}> Signup </Text>
+                <Text style={styles.buttonText}> Sign up </Text>
             </TouchableOpacity>
             <Text>Already have an account?</Text>
             <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")}/>
@@ -56,8 +56,10 @@ const styles = StyleSheet.create( {
       alignItems: 'center'
     },
     buttonText: {
-      color: ThemeColours.cafeAuLait,
+      color: ThemeColours.earthYellow,
       textAlign: 'center',
+      fontSize: 17, 
+      fontWeight: 'bold',
     },
     inner: {
       width: 300,

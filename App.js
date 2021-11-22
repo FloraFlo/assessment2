@@ -12,6 +12,7 @@ import { Splashscreen } from './components/Splashscreen';
 
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'; 
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; 
 
 initializeApp( firebaseConfig )
 
@@ -19,12 +20,23 @@ initializeApp( firebaseConfig )
 const Stack = createNativeStackNavigator(); 
 
 export default function App() {
+
+  const SignupHandler = (email, password) => {
+    const auth = getAuth()
+    createUserWithEmailAndPassword( auth, email, password)
+    .then( ( userCredentail ) => { console.log(userCredentail) })
+    .catch( (error) => { console.log(error) })
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
 
         
-        <Stack.Screen name="Signup" component={Signup} options={{ title: 'Sign up'}}/>
+        <Stack.Screen name="Signup" options={{title: 'Sign up'}}>
+          { (props) => <Signup {...props} handler={SignupHandler}/>}
+        </Stack.Screen>
+
         <Stack.Screen name="Signin" component={Signin} options={{ title: 'Sign in'}}/>
         <Stack.Screen name="Listpage" component={Listpage}/>
         <Stack.Screen name="Singleexercise" component={Singleexercise}/>
