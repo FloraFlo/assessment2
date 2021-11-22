@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
@@ -21,10 +21,19 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
+  const [ auth, setAuth ] = useState()
+  const [ user, setUser ] = useState()
+
+  const Auth = getAuth()
+
   const SignupHandler = (email, password) => {
-    const auth = getAuth()
-    createUserWithEmailAndPassword( auth, email, password)
-    .then( ( userCredentail ) => { console.log(userCredentail) })
+    
+    createUserWithEmailAndPassword( Auth, email, password)
+    .then( ( userCredentail ) => { 
+      console.log(userCredentail)
+      setAuth( true ) 
+      setUser( userCredentail )
+    })
     .catch( (error) => { console.log(error) })
   }
 
@@ -34,11 +43,13 @@ export default function App() {
 
         
         <Stack.Screen name="Signup" options={{title: 'Sign up'}}>
-          { (props) => <Signup {...props} handler={SignupHandler}/>}
+          { (props) => <Signup {...props} handler={SignupHandler} auth={auth}/>}
         </Stack.Screen>
 
         <Stack.Screen name="Signin" component={Signin} options={{ title: 'Sign in'}}/>
+
         <Stack.Screen name="Listpage" component={Listpage}/>
+
         <Stack.Screen name="Singleexercise" component={Singleexercise}/>
 
         {/* use it at the beginning  */}
