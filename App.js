@@ -12,7 +12,7 @@ import { Splashscreen } from './components/Splashscreen';
 
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'; 
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; 
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'; 
 
 initializeApp( firebaseConfig )
 
@@ -23,18 +23,42 @@ export default function App() {
 
   const [ auth, setAuth ] = useState()
   const [ user, setUser ] = useState()
+  const [ signupError, setSignupError ] = useState()
+  const [ signinError, setSigninError ] = useState()
 
-  const Auth = getAuth()
+  const FBauth = getAuth()
+  
+  useEffect( () => {
+    onAuthStateChanged( FBauth, (user) => {
+      if( user ) {
+        setAuth(true) 
+        setUser(user)
+      }
+      else {
+        setAuth(false)
+        setUser(null)
+      }
+    })
+  })
 
   const SignupHandler = (email, password) => {
-    
-    createUserWithEmailAndPassword( Auth, email, password)
+    setSignupError(null)
+    createUserWithEmailAndPassword( FBauth, email, password)
     .then( ( userCredentail ) => { 
       console.log(userCredentail)
       setAuth( true ) 
       setUser( userCredentail )
     })
-    .catch( (error) => { console.log(error) })
+    .catch( (error) => { setSignupError(error.code) })
+  }
+
+  const SigninHandler = (email, password) => {
+    signInWithEmailAndPassword( FBauth, email, password)
+    .then( (userCredentail) => {
+      setUser(userCredentail)
+      setAuth(true)
+    })
+    .catch( (error) => { setSigninError(error.code)})
   }
 
   return (
@@ -43,10 +67,13 @@ export default function App() {
 
         
         <Stack.Screen name="Signup" options={{title: 'Sign up'}}>
-          { (props) => <Signup {...props} handler={SignupHandler} auth={auth}/>}
+          { (props) => <Signup {...props} handler={SignupHandler} auth={auth} error={signupError}/>}
         </Stack.Screen>
 
-        <Stack.Screen name="Signin" component={Signin} options={{ title: 'Sign in'}}/>
+        <Stack.Screen name="Signin" options={{title: 'Sign in'}}>
+         { (props) => <Signin {...props} handler={SigninHandler} auth={auth} error={signinError}/>}
+        </Stack.Screen>
+
 
         <Stack.Screen name="Listpage" component={Listpage}/>
 
