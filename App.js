@@ -15,6 +15,7 @@ import { Signout } from './components/Signout';
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'; 
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'; 
+import { getFirestore, setDoc, doc} from 'firebase/firestore'; 
 
 initializeApp( firebaseConfig )
 
@@ -29,6 +30,7 @@ export default function App() {
   const [ signinError, setSigninError ] = useState()
 
   const FBauth = getAuth()
+  const firestore = getFirestore() 
   
   useEffect( () => {
     onAuthStateChanged( FBauth, (user) => {
@@ -48,6 +50,8 @@ export default function App() {
     createUserWithEmailAndPassword( FBauth, email, password)
     .then( ( userCredentail ) => { 
       console.log(userCredentail)
+      addDoc( collection( firestore, 'users'), { id: userCredentail.user.uid, email: userCredential.email})
+      // createUser('user', { id: userCredentail.user.uid, email: userCredential.email})
       setAuth( true ) 
       setUser( userCredentail )
     })
@@ -71,11 +75,18 @@ export default function App() {
     .catch( (error) => console.log(error.code) )
   }
 
+  const createUser = async ( collection, data ) => {
+    firestore.collection( collection ).doc(data.id).set(data)
+    .then( (response) => console.log(response))
+    .catch((error) => console.log(error))
+  }  
+  
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Splashscreen">
+      <Stack.Screen name="Splashscreen" component={Splashscreen}/>
 
-        
         <Stack.Screen name="Signup" options={{title: 'Sign up'}}>
           { (props) => <Signup {...props} handler={SignupHandler} auth={auth} error={signupError}/>}
         </Stack.Screen>
@@ -90,9 +101,6 @@ export default function App() {
         </Stack.Screen>
 
         <Stack.Screen name="Singleexercise" component={Singleexercise}/>
-
-        {/* use it at the beginning  */}
-        <Stack.Screen name="Splashscreen" component={Splashscreen}/>
         
       </Stack.Navigator>
     </NavigationContainer>
