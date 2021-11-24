@@ -3,13 +3,14 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
-import { Signout } from './components/Signout';
 
 import { Signup } from './components/Signup';
 import { Signin } from './components/Signin';
 import { Listpage } from './components/Listpage';
 import { Singleexercise } from './components/Singleexercise';
 import { Splashscreen } from './components/Splashscreen';
+
+import { Signout } from './components/Signout';
 
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'; 
@@ -79,13 +80,13 @@ export default function App() {
           { (props) => <Signup {...props} handler={SignupHandler} auth={auth} error={signupError}/>}
         </Stack.Screen>
 
-        <Stack.Screen name="Signin" options={{title: 'Sign in'}}>
-         { (props) => <Signin {...props} handler={SigninHandler} auth={auth} error={signinError}/>}
+        <Stack.Screen name="Signin" options={{title: 'Sign in'}}> 
+         { (props) => <Signin {...props} auth={auth} handler={SigninHandler} error={signinError}/>}
         </Stack.Screen>
 
-
-        <Stack.Screen name="Listpage">
-         { (props) => <Home {...props} auth={auth} options={{ headerRight: (props) => <Signout {...props}/>) 
+        <Stack.Screen name="Listpage" options={{headerTitle: 'List page',
+        headerRight: (props) => <Signout {...props} handler={SignoutHandler} user={user}/>}}>
+         { (props) => <Listpage {...props} auth={auth}/>} 
         </Stack.Screen>
 
         <Stack.Screen name="Singleexercise" component={Singleexercise}/>

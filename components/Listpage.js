@@ -7,8 +7,10 @@ export function Listpage ( props ) {
     const navigation = useNavigation()
 
     useEffect( () => {
-    
-    })
+        if(!props.auth) {
+            navigation.reset({ index:0, routes:[{name:'Signin'}]})
+        }
+    }, [props.auth])
 
     return (
     <View>
