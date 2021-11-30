@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'; 
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, FlatList} from "react-native";
 import { useNavigation } from '@react-navigation/core';
 
 export function Listpage ( props ) {
 
     const navigation = useNavigation()
+    const [ listData, setListdata ] = useState()
 
     useEffect( () => {
         if(!props.auth) {
@@ -12,9 +13,18 @@ export function Listpage ( props ) {
         }
     }, [props.auth])
 
+    useEffect( () => {
+        setListdata( props.data )
+    }, [props.data])
+
+    const renderItem = ({item}) => (
+        <View><Text>{item.time}</Text></View>
+    )
+
     return (
     <View>
         <Text> List Page </Text>
+        <FlatList data={ listData } renderItem={ renderItem} keyExtractor={item => item.id}/>
     </View>
     )
 }

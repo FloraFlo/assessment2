@@ -15,9 +15,12 @@ import { Signout } from './components/Signout';
 import { firebaseConfig } from './Config';
 import {initializeApp} from 'firebase/app'; 
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'; 
-import { getFirestore, setDoc, doc} from 'firebase/firestore'; 
+import { initializeFirestore, getFirestore, setDoc, doc, collection, query, where, onSnapshot} from 'firebase/firestore'; 
 
-initializeApp( firebaseConfig )
+//initialize firestore 
+const FBapp = initializeApp( firebaseConfig)
+const FSdb = initializeFirestore(FBapp, {useFetchStreams: false})
+const FBauth = getAuth()
 
 
 const Stack = createNativeStackNavigator(); 
@@ -28,6 +31,7 @@ export default function App() {
   const [ user, setUser ] = useState()
   const [ signupError, setSignupError ] = useState()
   const [ signinError, setSigninError ] = useState()
+  const [ data, setData ] = useState() 
 
   const FBauth = getAuth()
   const firestore = getFirestore() 
@@ -37,6 +41,7 @@ export default function App() {
       if( user ) {
         setAuth(true) 
         setUser(user)
+        if (!data) { getData() }
       }
       else {
         setAuth(false)
@@ -44,6 +49,12 @@ export default function App() {
       }
     })
   })
+
+  /* useEffect ( () => {
+    if ( !data && user) {
+      getData()
+    }
+  }, [data, auth, user]) */
 
   const SignupHandler = (email, password) => {
     setSignupError(null)
@@ -80,6 +91,21 @@ export default function App() {
     .then( (response) => console.log(response))
     .catch((error) => console.log(error))
   }  
+
+  //read data
+  const getData = () => {
+    const FBquery = query(collection( FSdb, `yoga/${yoga.uid}/name`) )
+    const unsubscribe = onSnapshot( FSquery, ( querSnapshot ) => {
+      let FSdata = []
+      QuerySnapshot.forEach( (doc) => {
+        let item = {}
+        item = doc.data()
+        item.id = doc.id
+        FSdata.push( doc.data())
+      })
+      setData( FSdata )
+    })
+  }
   
 
   return (
@@ -97,7 +123,7 @@ export default function App() {
 
         <Stack.Screen name="Listpage" options={{headerTitle: 'List page',
         headerRight: (props) => <Signout {...props} handler={SignoutHandler} user={user}/>}}>
-         { (props) => <Listpage {...props} auth={auth}/>} 
+         { (props) => <Listpage {...props} auth={auth} data={data}/>} 
         </Stack.Screen>
 
         <Stack.Screen name="Singleexercise" component={Singleexercise}/>
