@@ -18,7 +18,7 @@ export function Listpage ( props ) {
     }, [props.data])
 
     const renderItem = ({item}) => (
-        <View><Text>{item.time}</Text></View>
+        <View><Text>{item.name}</Text></View>
     )
 
     return (

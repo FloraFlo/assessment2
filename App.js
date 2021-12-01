@@ -94,7 +94,7 @@ export default function App() {
 
   //read data
   const getData = () => {
-    const FBquery = query(collection( FSdb, `yoga/${yoga.uid}/name`) )
+    const FSquery = query(collection( FSdb, `yoga`) )
     const unsubscribe = onSnapshot( FSquery, ( querySnapshot ) => {
       let FSdata = []
       querySnapshot.forEach( (doc) => {
