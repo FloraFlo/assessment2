@@ -17,20 +17,19 @@ export function Listpage ( props ) {
         setListdata( props.data )
     }, [props.data])
 
-    const onClick = (itemId) => {
-        console.log(itemId)
-        navigation.navigate('Singleexercise',{name: name})
+    const onClick = (item) => {
+        console.log(item.id)
+        navigation.navigate('Singleexercise',{name: item.name, level: item.level, duration: item.duration} )
     }
 
     const renderItem = ({item}) => (
         <View style={styles.item} >
-            <Text onPress={ () => onClick(item.time)}>{item.name}</Text>
+            <Text onPress={ () => onClick(item)}> {item.name}</Text>
         </View>
     )
 
     return (
     <View>
-        <Text> List Page </Text>
         <FlatList data={ listData } renderItem={ renderItem} keyExtractor={item => item.id}/>
     </View>
     )
