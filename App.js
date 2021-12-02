@@ -126,7 +126,9 @@ export default function App() {
          { (props) => <Listpage {...props} auth={auth} data={data}/>} 
         </Stack.Screen>
 
-        <Stack.Screen name="Singleexercise" component={Singleexercise}/>
+        <Stack.Screen name="Singleexercise" options ={{ headerTitle: "Flow details"}}>
+        {(props) => <Singleexercise {...props}/>}
+        </Stack.Screen>
         
       </Stack.Navigator>
     </NavigationContainer>

@@ -17,8 +17,15 @@ export function Listpage ( props ) {
         setListdata( props.data )
     }, [props.data])
 
+    const onClick = (itemId) => {
+        console.log(itemId)
+        navigation.navigate('Singleexercise',{name: name})
+    }
+
     const renderItem = ({item}) => (
-        <View><Text>{item.name}</Text></View>
+        <View style={styles.item} >
+            <Text onPress={ () => onClick(item.time)}>{item.name}</Text>
+        </View>
     )
 
     return (
@@ -28,3 +35,11 @@ export function Listpage ( props ) {
     </View>
     )
 }
+
+const styles = StyleSheet.create({
+    item: {
+        padding: 10, 
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1
+    },
+})

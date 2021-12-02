@@ -36,7 +36,7 @@ export function Signin ( props ) {
                 <Feedback message={props.error}/> 
 
                 <Text>Don't have an account?</Text>
-                <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")}/>
+                <Button title="Click here to sign up" onPress={() => navigation.navigate("Signup")}/>
             </View>
             </KeyboardAvoidingView>
         </View>
