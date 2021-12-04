@@ -17,16 +17,16 @@ return (
 
 const styles = StyleSheet.create({
     background: {
-    flex: 1,
-    backgroundColor: ThemeColours.maximumYellowRed,
-    alignItems: 'center',
-    justifyContent: 'center',
+        flex: 1,
+        backgroundColor: ThemeColours.maximumYellowRed,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     image: {
-    flex: 1,
-    width: 450,
-    height: 450,
-    resizeMode: 'contain',
-    alignItems: 'center',
+        flex: 1,
+        width: 450,
+        height: 450,
+        resizeMode: 'contain',
+        alignItems: 'center',
     },
 }); 
