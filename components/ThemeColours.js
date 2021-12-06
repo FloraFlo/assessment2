@@ -4,4 +4,5 @@ export const ThemeColours = {
     rawSienna: 'hsla(24, 54%, 60%, 1.0)',
     cafeAuLait: 'hsla(24, 36%, 55%, 1.0)',
     beaver: 'hsla(25, 20%, 50%, 1.0)',
+    white: 'hsla(0, 0%, 0%, 1.0)', 
 }

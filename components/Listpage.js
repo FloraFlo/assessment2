@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, FlatList, Image} from "react-native";
 import { useNavigation } from '@react-navigation/core';
 import { ThemeColours } from './ThemeColours';
+import { Entypo } from "@expo/vector-icons";
 
 
 export function Listpage ( props ) {
@@ -26,7 +27,7 @@ export function Listpage ( props ) {
 
     const renderItem = ({item}) => (
         <View style={styles.item} >
-            <Text onPress={ () => onClick(item)}> {item.name}</Text>
+            <Text style={styles.text} onPress={ () => onClick(item)}> ꕤ   {item.name}</Text>
         </View>
     )
 
@@ -45,16 +46,18 @@ export function Listpage ( props ) {
 }
 
 const styles = StyleSheet.create( {
+    text: {
+      fontSize: 17,
+    }, 
     item: {
     padding: 10, 
     borderBottomColor: ThemeColours.earthYellow,
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     },
     input: {
       backgroundColor: ThemeColours.rawSienna,
-      fontSize: 16,
+      fontSize: 20,
       padding: 5,
-      borderRadius: 4,
     },
     button: {
       marginVertical: 15,

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'; 
-import {View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform} from "react-native";
+import {View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Image} from "react-native";
 import { useNavigation } from '@react-navigation/core';
 import { ThemeColours } from './ThemeColours';
 import { Feedback } from './Feedback';
@@ -56,7 +56,7 @@ export function Signup ( props ) {
 
     return (
     <View style={styles.container}>
-        <Text> Sign up </Text>
+        <Text style={styles.title}> Sign up </Text>
         <KeyboardAvoidingView 
             behavior = {Platform.OS === "ios" ? "padding" : "height"} 
         >
@@ -85,6 +85,9 @@ export function Signup ( props ) {
             <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")}/>
         </View>
         </KeyboardAvoidingView>
+        <Image style={styles.image}
+                source={require('../assets/blogo.png')}
+            />
     </View>
     )
 }
@@ -121,7 +124,18 @@ const styles = StyleSheet.create( {
       fontWeight: 'bold',
     },
     inner: {
-      width: 300,
+      width: 350,
       marginBottom: 90,
     },
+    image: {
+        width: 140,
+        height: 100,
+    },
+    title: {
+        color: ThemeColours.earthYellow,
+        textAlign: 'center',
+        fontSize: 30, 
+        fontWeight: 'bold',
+        padding: 17,
+          },
 }) 
